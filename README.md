@@ -1,12 +1,8 @@
 ## YOLOV3
-本项目将旨在说明如何将在pytorch的框架下训练yolov3,并且将yolov3的.pt的pytorch模型、caffe模型以及darknet模型进行相互的转化，以及如何使用tensorRT的工程将caffe的模型向tensorRT的engine模型进行转化，更进一步的，将会介绍从caffe模型转换成为xilinx的FPGA可以加速的模型。
+本项目将旨在说明如何将在pytorch的框架下训练yolov3,并且将yolov3的.pt的pytorch模型、caffe模型以及darknet模型进行相互的转化，以及如何使用tensorRT的工程将caffe的模型向tensorRT的engine模型进行转化.
 
 ### yolov3-pytorch
 This [yolov3-pytorch](./yolov3-pytorch/README.md) contains PyTorch YOLOv3 software developed by Ultralytics LLC, and is freely available for redistribution under the GPL-3.0 license. For more information please visit https://www.ultralytics.com.  
-
-#### 在此处添加你的Training文档
-训练代码：  
-
 
 官方模型文件：  
 `/home/hy/ethan/yolov3/yolov3-pytorch/cfg/official.cfg`  
@@ -27,14 +23,9 @@ This [yolov3-pytorch](./yolov3-pytorch/README.md) contains PyTorch YOLOv3 softwa
 执行以下命令生成对应的bbox渲染图：（训练生成YOLOV3）  
 `python detect.py --source data/val-samples/ --cfg cfg/high-speed-yolov3-20191030.cfg --weight weights/high-speed-yolov3-20191030.weights --data data/high-speed-yolov3-20191030.data`  
 
----
-
-#### 在此处添加你的Inference文档
-
 #### 模型转化
 此处我们以yolov3的官方文件以及我们在该工程下通过我们自己的数据集训练的pt模型进行转换的测试，主要进行的是将pytorch的模型转化成为yolo darket的模型。  
 1. 下载训练好的模型的配置文件[huanyu_high_speed_yolov3_20191030](http://47.100.39.180/download/inDriving/model/yolo/yolov3-pytorch/cfg/high-speed-yolov3-20191030.cfg)  
-在此处，我们是在原有的yolov3.cfg的基础上进行的重新训练，因此模型配置文件`high-speed-yolov3-20191030.cfg`与官方的`yolov3.cfg`的文件是一样的。  
 2. 下载训练好的权重文件[huanyu_high_speed_yolov3_20191030](http://47.100.39.180/download/inDriving/model/yolo/yolov3-pytorch/weights/high-speed-yolov3-20191030.pt)  
 由于是在pytorch框架下训练的，因此训练出的模型是.pt的格式  
 3. 将上述文件拷贝到相应的目录下  
@@ -52,12 +43,12 @@ This [yolov3-pytorch](./yolov3-pytorch/README.md) contains PyTorch YOLOv3 softwa
 
 ### darknet2caffe
 使用该工程的脚本可以将darknet的模型转换成为caffe的模型，值得注意的是，这个工程是python2的，因此需要你的caffe环境是在python2下面编译的  
-1. 建立你的环境  
+1. 根据需求创建了一个anacoda的环境`yolo_convertor`，在该anaconda环境下，我们安装了Python2以及torch环境，并且caffe是在python2下面安装的 
 `source ~/anaconda3/bin/activate yolo_convertor`  
-在该anaconda环境下，我们安装了Python2以及torch环境，并且caffe是在python2下面安装的  
+ 
 `echo $PYTHONPATH`  
     ```
-    /home/hy/z393/titan_dataset_studio/tools/catkin_ws/devel/lib/python2.7/dist-packages:/opt/ros/kinetic/lib/python2.7/dist-packages:/home/hy/ethan/caffe-ssd-python2/python
+    /opt/ros/kinetic/lib/python2.7/dist-packages:/home/hy/ethan/caffe-ssd-python2/python
     ```
 2. 将之前生成的darknet的模型复制到对应目录  
 具体而言将`.cfg`文件复制到`./cfg`目录下，将`.weights`文件复制到`./weights`目录下。  
