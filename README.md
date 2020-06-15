@@ -6,38 +6,20 @@ This [yolov3-pytorch](./yolov3-pytorch/README.md) contains PyTorch YOLOv3 softwa
 
 #### 在此处添加你的Training文档
 训练代码：  
-|属性|值|
-|:--:|:--:|
-|官方仓库|https://github.com/ultralytics/yolov3|
-|一帆训练的目录|/home/hy/z393/yolov3|
-|训练脚本|/home/hy/z393/yolov3/train.py|
-|原始模型文件|/home/hy/z393/yolov3/weights/darknet53.conv.74|
-|结果模型文件|/home/hy/z393/yolov3/weights/best.pt|
 
-重构修改后的工程目录：  
-`/home/hy/ethan/yolov3/yolov3-pytorch`  
 
 官方模型文件：  
 `/home/hy/ethan/yolov3/yolov3-pytorch/cfg/official.cfg`  
 `/home/hy/ethan/yolov3/yolov3-pytorch/weights/official/weights`  
 
 训练模型文件：  
-`/home/hy/ethan/yolov3/yolov3-pytorch/cfg/high-speed-yolov3-20191030.cfg`  
-`/home/hy/ethan/yolov3/yolov3-pytorch/weights/high-speed-yolov3-20191030.weights`  
-
-对应的测试文件目录：  
-`/home/hy/ethan/yolov3/yolov3-pytorch/data/samples`  
-
-执行以下命令生成对应的bbox渲染图：（官方原始YOLOV3）  
-`python detect.py --source data/samples/ --cfg cfg/official.cfg --weight weights/official.weights --data data/official.data`  
-
-执行以下命令生成对应的bbox渲染图：（训练生成YOLOV3）  
-`python detect.py --source data/samples/ --cfg cfg/high-speed-yolov3-20191030.cfg --weight weights/high-speed-yolov3-20191030.weights --data data/high-speed-yolov3-20191030.data`
+`/home/hy/z393/yolov3/yolov3-pytorch/cfg/high-speed-yolov3-20191030.cfg`  
+`/home/hy/z393/yolov3/yolov3-pytorch/weights/high-speed-yolov3-20191030.weights`  
 
 从Val文件目录中随机生成一定数量的文件作为val目录：  
 `python gen_val_samples.py --data data/high-speed-yolov3-20191030.data --output data/val-samples --num 30`  
 对应的测试文件目录：  
-`/home/hy/ethan/yolov3/yolov3-pytorch/data/val-samples`  
+`/home/hy/z393/yolov3/yolov3-pytorch/data/val-samples`  
 
 执行以下命令生成对应的bbox渲染图：（官方原始YOLOV3）  
 `python detect.py --source data/val-samples/ --cfg cfg/official.cfg --weight weights/official.weights --data data/official.data`  
@@ -61,7 +43,7 @@ This [yolov3-pytorch](./yolov3-pytorch/README.md) contains PyTorch YOLOv3 softwa
 4. 转换模型  
 由于该工程需要依赖torch等一些环境，因此系统根据需求创建了一个anacoda的环境`yolov3`，具体需要的环境，可以查看[yolov3-pytorch](./yolov3-pytorch/README.md)帮助文档  
 `source ~/anaconda3/bin/activate yolov3`  
-`python3  -c "from models import *; convert('cfg/high-speed-yolov3-20191030.cfg', 'weights/high-speed-yolov3-20191030.pt')"`  
+`python  -c "from models import *; convert('cfg/high-speed-yolov3-20191030.cfg', 'weights/high-speed-yolov3-20191030.pt')"`  
 正常情况下可以看到这样的打印`Success: converted 'weights/high-speed-yolov3-20191030.pt' to 'converted.weights'`,在当前目录下出现了`converted.weights`  
 `mv converted.weights ./weights/high-speed-yolov3-20191030.weights`  
 
@@ -75,7 +57,7 @@ This [yolov3-pytorch](./yolov3-pytorch/README.md) contains PyTorch YOLOv3 softwa
 在该anaconda环境下，我们安装了Python2以及torch环境，并且caffe是在python2下面安装的  
 `echo $PYTHONPATH`  
     ```
-    /home/hy/ethan/titan_dataset_studio/tools/catkin_ws/devel/lib/python2.7/dist-packages:/opt/ros/kinetic/lib/python2.7/dist-packages:/home/hy/ethan/caffe-ssd-python2/python
+    /home/hy/z393/titan_dataset_studio/tools/catkin_ws/devel/lib/python2.7/dist-packages:/opt/ros/kinetic/lib/python2.7/dist-packages:/home/hy/ethan/caffe-ssd-python2/python
     ```
 2. 将之前生成的darknet的模型复制到对应目录  
 具体而言将`.cfg`文件复制到`./cfg`目录下，将`.weights`文件复制到`./weights`目录下。  
@@ -83,7 +65,6 @@ This [yolov3-pytorch](./yolov3-pytorch/README.md) contains PyTorch YOLOv3 softwa
 `python darknet2caffe.py cfg/high-speed-yolov3-20191030.cfg weights/high-speed-yolov3-20191030.weights prototxt/high-speed-yolov3-20191030.prototxt caffemodel/high-speed-yolov3-20191030.caffemodel`  
 模型转换成功后，你能够在`./prototxt`里面发现`high-speed-yolov3-20191030.prototxt`以及在`./caffemodel`里面发现`high-speed-yolov3-20191030.caffemodel`  
 
-可能你会遇到一些问题，比如caffe里面找不到`upsample`层，或者是是`yolo`层不能识别之类的错误，可以试图联系我， `ccyinlu@whu.edu.cn`
 ---
 
 ### TensorRT-Yolov3
