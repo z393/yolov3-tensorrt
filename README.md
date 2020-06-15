@@ -24,7 +24,7 @@ This [yolov3-pytorch](./yolov3-pytorch/README.md) contains PyTorch YOLOv3 softwa
 `python detect.py --source data/val-samples/ --cfg cfg/high-speed-yolov3-20191030.cfg --weight weights/high-speed-yolov3-20191030.weights --data data/high-speed-yolov3-20191030.data`  
 
 #### 模型转化
-此处我们以yolov3的官方文件以及我们在该工程下通过我们自己的数据集训练的pt模型进行转换的测试，主要进行的是将pytorch的模型转化成为yolo darket的模型。  
+此处主要进行的是将pytorch的模型转化成为yolo darket的模型。  
 1. 下载训练好的模型的配置文件[huanyu_high_speed_yolov3_20191030](http://47.100.39.180/download/inDriving/model/yolo/yolov3-pytorch/cfg/high-speed-yolov3-20191030.cfg)  
 2. 下载训练好的权重文件[huanyu_high_speed_yolov3_20191030](http://47.100.39.180/download/inDriving/model/yolo/yolov3-pytorch/weights/high-speed-yolov3-20191030.pt)  
 由于是在pytorch框架下训练的，因此训练出的模型是.pt的格式  
@@ -42,8 +42,8 @@ This [yolov3-pytorch](./yolov3-pytorch/README.md) contains PyTorch YOLOv3 softwa
 ---  
 
 ### darknet2caffe
-使用该工程的脚本可以将darknet的模型转换成为caffe的模型，值得注意的是，这个工程是python2的，因此需要你的caffe环境是在python2下面编译的  
-1. 根据需求创建了一个anacoda的环境`yolo_convertor`，在该anaconda环境下，我们安装了Python2以及torch环境，并且caffe是在python2下面安装的 
+使用该工程的脚本可以将darknet的模型转换成为caffe的模型，值得注意的是，这个工程是python2的，因此需要caffe环境是在python2下面编译的  
+1. 根据需求创建了一个anacoda的环境`yolo_convertor`，在该anaconda环境下，安装了Python2以及torch环境，并且caffe是在python2下面安装的 
 `source ~/anaconda3/bin/activate yolo_convertor`  
  
 `echo $PYTHONPATH`  
@@ -54,26 +54,26 @@ This [yolov3-pytorch](./yolov3-pytorch/README.md) contains PyTorch YOLOv3 softwa
 具体而言将`.cfg`文件复制到`./cfg`目录下，将`.weights`文件复制到`./weights`目录下。  
 3. 模型转换  
 `python darknet2caffe.py cfg/high-speed-yolov3-20191030.cfg weights/high-speed-yolov3-20191030.weights prototxt/high-speed-yolov3-20191030.prototxt caffemodel/high-speed-yolov3-20191030.caffemodel`  
-模型转换成功后，你能够在`./prototxt`里面发现`high-speed-yolov3-20191030.prototxt`以及在`./caffemodel`里面发现`high-speed-yolov3-20191030.caffemodel`  
+模型转换成功后，在`./prototxt`里面发现`high-speed-yolov3-20191030.prototxt`以及在`./caffemodel`里面发现`high-speed-yolov3-20191030.caffemodel`  
 
 ---
 
 ### TensorRT-Yolov3
 使用该工程的脚本可以将caffe的模型转换成为tensorRT加速的`.engine`的模型，并且附带了一些测试案例  
-1. 编译你的环境  
+1. 编译环境  
 `mkdir build`  
 `cd build`  
 `cmake ..`  
 `make & make install`  
 `cd ..`  
-2. 编译你的yolo-608模型  
-因为不同的输入分辨率对应不同的YOLO-KERNEL的配置，所以我们在代码中通过宏来定义的，如果你需要编译出608的模型，修改CMakeLists.txt  
+2. 编译yolo-608模型  
+因为不同的输入分辨率对应不同的YOLO-KERNEL的配置，所以在代码中通过宏来定义的，如果你需要编译出608的模型，修改CMakeLists.txt  
 添加一行:  
 `add_definitions(-DYOLO608) # or define YOLO416 for yolo416 model`  
 重新执行第一步编译步骤  
-3. 准备你的CAFFE模型  
+3. 准备CAFFE模型  
 具体而言将`.prototxt`文件复制到`./prototxt`目录下，将`.caffemodel`文件复制到`./caffemodel`目录下。  
-4. 修改你的配置文件  
+4. 修改配置文件  
 正常情况下不修改配置文件`.prototxt`的情况下会出现错误:  <font color=red>```[libprotobuf ERROR google/protobuf/text_format.cc:298] Error parsing text-format ditcaffe.NetParameter: 2622:20: Message type "ditcaffe.LayerParameter" has no field named "upsample_param"```</font>  
 该错误是由于默认的proto文件不能支持这个上采样的参数，直接注释掉就可以：  
 <font color=blue>```Hi，@Ricardozzf. TensorRT caffe parser can't check the param not in it's default proto file, although I added it as plugin. You need to comment the "upsample_param" but still leave the type "Upsample". Then the running can be OK.```</font>  
@@ -83,7 +83,7 @@ This [yolov3-pytorch](./yolov3-pytorch/README.md) contains PyTorch YOLOv3 softwa
     #    scale: 2
     #}
     ```
-    除此以外，还需要修改的是在最后一层增加一个yolo_det的输出，由于默认的caffe里面没有yolo_det的实现，而我们在这个tensorRT里有yoloLayer.cu的实现，我们需要配置文件里面有yolo_det层。  
+    除此以外，还需要修改的是在最后一层增加一个yolo_det的输出，由于默认的caffe里面没有yolo_det的实现，而这个tensorRT里有yoloLayer.cu的实现，需要配置文件里面有yolo_det层。  
     修改`./prototxt/high-speed-yolov3-20191030.prototxt`文件，在最后增加：  
     ```
     layer {
