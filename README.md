@@ -5,8 +5,8 @@
 This [yolov3-pytorch](./yolov3-pytorch/README.md) contains PyTorch YOLOv3 software developed by Ultralytics LLC, and is freely available for redistribution under the GPL-3.0 license. For more information please visit https://www.ultralytics.com.  
 
 官方模型文件：  
-`/home/hy/ethan/yolov3/yolov3-pytorch/cfg/official.cfg`  
-`/home/hy/ethan/yolov3/yolov3-pytorch/weights/official/weights`  
+`/home/hy/z393/yolov3/yolov3-pytorch/cfg/official.cfg`  
+`/home/hy/z393/yolov3/yolov3-pytorch/weights/official/weights`  
 
 训练模型文件：  
 `/home/hy/z393/yolov3/yolov3-pytorch/cfg/high-speed-yolov3-20191030.cfg`  
